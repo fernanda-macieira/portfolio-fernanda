@@ -1,0 +1,437 @@
+/* 1. CONFIGURAÇÃO BÁSICA E O GRADIENTE ANIMADO */
+
+*/
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+/* ---- Seção Sobre ---- */
+
+.container-grid {
+  display: grid; 
+  grid-template-columns: 1fr 1fr;
+  gap: 0px; 
+}
+
+.coluna-1 {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-right: auto;
+}
+
+.coluna-2 {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    margin-left: 30%;
+}
+
+.sobre-foto img {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover; 
+}
+
+.background-wrapper {
+   
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* 100% da altura da tela */
+    z-index: -1;
+
+    /* O gradiente */
+    background: linear-gradient(
+        45deg, 
+        #000000, 
+        #250025, 
+        #0e000e, 
+        #560253
+    );
+    
+    /* 
+      Tornamos o fundo 4x maior que a tela para
+      que a animação de 'background-position' 
+      tenha para onde se mover.
+    */
+    background-size: 400% 400%;
+    
+    /* 
+      'animateGradient' é nossa animação 
+      que roda em loop infinito.
+    */
+    animation: animateGradient 17s ease infinite;
+}
+
+/* 2. O CONTEÚDO PRINCIPAL (POR CIMA DO FUNDO) */
+
+main {
+    /* 
+      'position: relative' garante que o z-index funcione
+      e que o conteúdo 'main' fique sobre o 'background-wrapper'.
+    */
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+
+/* 3. AS "BOLHAS" FLUTUANTES */
+
+.shape {
+    position: absolute;
+    display: block;
+    background-color: rgba(163, 10, 174, 0.15); /* Cor semi-transparente */
+    border-radius: 50%; /* Faz ser um círculo */
+    
+    /* Começa fora da tela, na parte de baixo */
+    bottom: -150px; 
+    
+    /* 'animateFloat' é a animação que as faz subir */
+    animation: animateFloat 20s linear infinite;
+    
+    /* Efeito de hover simples */
+    transition: transform 0.3s ease;
+}
+
+/* Interatividade: Aumenta ao passar o mouse */
+.shape:hover {
+    transform: scale(1.2);
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+
+/* 4. VARIAÇÕES DAS BOLHAS (Para parecer aleatório) */
+/* 
+   Cada bolha tem um 'left' (posição horizontal)
+   tamanhos, e 'animation-delay' (tempo de espera) diferentes.
+   Isso é o que faz o efeito parecer orgânico.
+*/
+.shape:nth-child(1) {
+    left: 10%;
+    width: 80px;
+    height: 80px;
+    animation-delay: 0s;
+    animation-duration: 15s; /* Mais rápido */
+}
+.shape:nth-child(2) {
+    left: 20%;
+    width: 30px;
+    height: 30px;
+    animation-delay: 2s;
+    animation-duration: 10s;
+}
+.shape:nth-child(3) {
+    left: 25%;
+    width: 50px;
+    height: 50px;
+    animation-delay: 4s;
+}
+.shape:nth-child(4) {
+    left: 50%;
+    width: 120px;
+    height: 120px;
+    animation-delay: 0s;
+    animation-duration: 18s;
+}
+.shape:nth-child(5) {
+    left: 70%;
+    width: 40px;
+    height: 40px;
+    animation-delay: 6s;
+}
+.shape:nth-child(6) {
+    left: 85%;
+    width: 60px;
+    height: 60px;
+    animation-delay: 8s;
+    animation-duration: 25s; /* Mais lento */
+}
+
+
+/* 5. AS ANIMAÇÕES (KEYFRAMES) */
+
+/* Animação do Gradiente (move a posição) */
+@keyframes animateGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Animação das Bolhas (move de baixo para cima) */
+@keyframes animateFloat {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        /* Move 120vh (um pouco mais que a tela) para cima */
+        transform: translateY(-120vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+       /* Configurações Globais */
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #d4d4d4;
+            line-height: 1.6;
+        }
+
+        /* Container Principal */
+        .container {
+            
+            max-width: 1000px;
+            margin: 15px auto;
+            padding: 0 15px;
+        }
+
+        /* Cabeçalho */
+        header {
+            background: #ffffff;
+            background: rgb(9, 0, 22) 100%;
+            color: #fff;
+            padding: 3px 1;
+            text-align: center;
+            
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        header p {
+            font-size: 1.2em;
+            color: #d4d4d4;
+        }
+
+        /* Navegação */
+        nav {
+            background-color:  rgba(0, 0, 0, 0.472);
+            padding: 10px 0;
+            text-align: center;
+            position: sticky; /* Faz o menu "grudar" no topo */
+            top: 0;
+            z-index: 100;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline-block; /* Coloca os links lado a lado */
+            margin: 0 20px;
+        }
+        nav ul li a {
+            color: #e2e2e2;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        nav ul li a:hover {
+            color:  #bb37ef; /* Cor de destaque */
+        }
+
+        /* Seções (Sobre, Projetos, Contato) */
+        section {
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        section h2 {
+            text-align: center;
+            font-size: 2em;
+            background-image: linear-gradient(rgb(255, 255, 255) 0%, rgb(234, 160, 220) 100%);
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            margin-bottom: 30px;
+        }
+
+        /* Grade de Projetos */
+        .grid-projetos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px; /* Espaçamento entre os cartões */
+        }
+
+        .projeto-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden; /* Garante que a imagem não vaze */
+            background: #f9f9f9;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        .projeto-card:hover {
+            transform: translateY(-5px); /* Efeito de "levantar" */
+        }
+        .projeto-card img {
+            width: 100%; /* Faz a imagem ocupar o cartão */
+            height: 180px;
+            object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
+            display: block;
+        }
+        .projeto-card-info {
+            padding: 20px;
+        }
+        .projeto-card h3 {
+            margin-top: 0;
+            color:  #bb37ef;
+        }
+        .projeto-card p {
+            font-size: 0.9em;
+            color:rgb(0, 0, 0)
+        }
+        .projeto-card a {
+            display: inline-block;
+            background:  #bb37ef;
+            color: #fff;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .projeto-card a:hover {
+            background: #555;
+        }
+
+        /* Contato */
+        #contato ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        #contato li {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        #contato a {
+            color: #d1d1d1;
+            text-decoration: none;
+        }
+        #contato a:hover {
+            text-decoration: underline;
+        }
+        /* --- Configurações Globais --- */
+        * {
+            box-sizing: border-box; /* Garante que padding não afete o tamanho final */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5; /* Um cinza claro para o fundo */
+            color: #ffffff;
+            margin: 0;
+          
+            
+        }
+
+        /* --- Título da Seção --- */
+        .secao-titulo {
+            text-align: center;
+            font-size: 2em;
+            background-image: linear-gradient(rgb(255, 255, 255) 0%, rgb(234, 160, 220) 100%);
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            margin-bottom: 30px;
+        }
+
+        #sobre h2 {
+            text-align: left;
+            margin-bottom: 0px;
+        }
+
+        #sobre h1 {
+            font-size: 4em;
+            margin-bottom: 0px;
+            margin-top: 0px;
+            margin-right: auto;
+             background-image: linear-gradient( #bb37ef, rgb(234, 160, 220) 100%);
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+        }
+
+        #sobre p {
+            font-size: 1em;
+            line-height: 1.5;
+            margin-right: 0px;
+            color: #ffffff;
+        }
+
+        #imgem-foto {
+            width: 150px;
+            height: 150px;
+            display: round;
+            margin-left: auto;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        /* --- O Container dos Cards com responsividade --- */
+        .skills-container {
+            display: grid;
+        
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            
+            gap: 25px; /* Espaçamento entre os cards */
+            max-width: 800px; /* Largura máxima para o grid */
+            margin: 0 auto; /* Centraliza o grid na página */
+        }
+
+        /* --- Estilo Individual do Card --- */
+        .skill-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.396);
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Efeito "flutuar" ao passar o mouse */
+        .skill-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.252);
+        }
+
+        /* Estilo do Ícone (emoji usado como exemplo) */
+        .skill-icon {
+            font-size: 3.5rem; /* Tamanho grande para o ícone/emoji */
+            margin-bottom: 20px;
+        }
+
+        .skill-card h3 {
+            font-size: 1.4em;
+            color: #bb37ef; /* Cor de destaque para o título */
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .skill-card p {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #222121;
+        }
+
+        /* Rodapé */
+        footer {
+            text-align: center;
+            padding: 5px;
+            background-color:  rgba(0, 0, 0, 0.313);
+            color: #fff;
+        }
